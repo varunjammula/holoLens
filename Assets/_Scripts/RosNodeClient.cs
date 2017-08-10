@@ -1,47 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Vuforia;
-
-
-
-#if !UNITY_EDITOR
-using Windows.Web.Http;
-using System;
-#endif
-
-
+using UnityEngine.Networking;
 
 public class RosNodeClient : MonoBehaviour
 {
 
-    public string ApiEndpoint = "192.168.86.102";
+    public string ApiEndpoint = "192.168.1.9";
+    public GameObject arrow;
     private TextMesh messageMesh;
     private string ros_response = null;
-    private DefaultTrackableEventHandler trackingHandler = null;
-
-#if UNITY_EDITOR
-    private WWW www;
-#endif
-
-#if !UNITY_EDITOR
-    private HttpClient httpClient = null;
-#endif
 
     void Start()
     {
         ApiEndpoint = "http://" + ApiEndpoint + ":8080/api";
         Debug.Log("End point:" + ApiEndpoint);
         messageMesh = GameObject.Find("Message").GetComponent<TextMesh>();
-        trackingHandler = new DefaultTrackableEventHandler();
-
-#if UNITY_EDITOR
-        www = new WWW(ApiEndpoint);
-#endif
-
-#if !UNITY_EDITOR
-        //httpClient = new HttpClient();
-#endif
-
     }
 
     private string getTimeStamp()
@@ -52,76 +26,51 @@ public class RosNodeClient : MonoBehaviour
 
     void FixedUpdate()
     {
-        messageMesh.text = "Time: " + getTimeStamp() + " ms.";
-#if UNITY_EDITOR
-        //StartCoroutine(WaitForRequest(www));
-#endif
+        
+        StartCoroutine(WaitForRequest(ApiEndpoint));
 
-
-#if !UNITY_EDITOR
-        //SendRequest();
-#endif
-
-        if (ros_response != null)
-            messageMesh.text = ros_response;
+        
     }
 
-#if UNITY_EDITOR
-    IEnumerator WaitForRequest(WWW www)
+    IEnumerator WaitForRequest(string url)
     {
-        yield return www;
+        UnityWebRequest www = UnityWebRequest.Get(url);
+        www.SetRequestHeader("Cache-Control", "max-age=0, no-cache, no-store");
+        www.SetRequestHeader("Pragma", "no-cache");
 
-        // check for errors
+        yield return www.Send();
         if (www.error == null)
         {
-            Debug.Log("WWW Ok!: " + www.text);
-            ros_response = www.text;
-            //messageMesh.text = Time.deltaTime.ToString();
+            Debug.Log(www.error);
+            ros_response = null;
         }
         else
         {
-            Debug.Log("WWW Error: " + www.error);
+            Debug.Log("Received " + www.downloadHandler.text);
+            ros_response = www.downloadHandler.text;
+            //messageMesh.text = ros_response["data"].ToString();
+        }
+
+        if (ros_response != null)
+        {
+            if (ros_response.Equals("1"))
+            {
+                //arrow.SetActive(true);
+                //arrow.transform.Rotate(0, 0, 90);
+                arrow.transform.rotation = Quaternion.Euler(0, 0, 90);
+                messageMesh.text = "received 1";
+
+            }
+            else if (ros_response.Equals("2"))
+            {
+                //arrow.SetActive(true);
+                //arrow.transform.Rotate(0, 0, -90);
+                arrow.transform.rotation = Quaternion.Euler(0, 0, -90);
+            }
+            else
+            {
+                //arrow.SetActive(false);
+            }
         }
     }
-#endif
-
-#if !UNITY_EDITOR
-    private async void SendRequest()
-    {
-        var headers = httpClient.DefaultRequestHeaders;
-
-        //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
-        //especially if the header value is coming from user input.
-        string header = "ie";
-        if (!headers.UserAgent.TryParseAdd(header))
-        {
-            throw new Exception("Invalid header value: " + header);
-        }
-
-        header = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
-        if (!headers.UserAgent.TryParseAdd(header))
-        {
-            throw new Exception("Invalid header value: " + header);
-        }
-
-        Uri requestUri = new Uri(ApiEndpoint);
-
-        //Send the GET request asynchronously and retrieve the response as a string.
-        HttpResponseMessage httpResponse = new HttpResponseMessage();
-        string httpResponseBody = "";
-
-        try
-        {
-            //Send the GET request
-            httpResponse = await httpClient.GetAsync(requestUri);
-            httpResponse.EnsureSuccessStatusCode();
-            httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
-            ros_response = httpResponseBody.ToString();
-        }
-        catch (Exception ex)
-        {
-            httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
-        }
-    }
-#endif
 }

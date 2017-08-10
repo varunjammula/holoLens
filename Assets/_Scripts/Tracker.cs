@@ -1,4 +1,4 @@
-/*==============================================================================
+﻿/*==============================================================================
 Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc.
 All Rights Reserved.
 Confidential and Proprietary - Protected under copyright and other laws.
@@ -11,16 +11,15 @@ namespace Vuforia
     /// <summary>
     /// A custom handler that implements the ITrackableEventHandler interface.
     /// </summary>
-    public class DefaultTrackableEventHandler : MonoBehaviour,
-                                                ITrackableEventHandler
+    public class Tracker : MonoBehaviour, ITrackableEventHandler
     {
         #region PRIVATE_MEMBER_VARIABLES
- 
-        private TrackableBehaviour mTrackableBehaviour;
 
+        private TrackableBehaviour mTrackableBehaviour;
         #endregion // PRIVATE_MEMBER_VARIABLES
 
-
+        public TextMesh messageMesh;
+        public GameObject arrow;
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
 
@@ -82,9 +81,12 @@ namespace Vuforia
             {
                 component.enabled = true;
             }
-
+            
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found at: " + getTimeStamp());
-            //messageMesh.text = "Trackable " + mTrackableBehaviour.TrackableName + " found at: " + getTimeStamp();
+            messageMesh.text = mTrackableBehaviour.TrackableName + " found at: " + mTrackableBehaviour.transform.position;
+            arrow.transform.position = mTrackableBehaviour.transform.position;
+            //arrow.transform.rotation = mTrackableBehaviour.transform.rotation;
+            //arrow.transform.rotation = new Quaternion(0, 90, 0, 0);
         }
 
 
