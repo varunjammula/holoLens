@@ -48,28 +48,29 @@ public class RosNodeClient : MonoBehaviour
         {
             Debug.Log("Received " + www.downloadHandler.text);
             ros_response = www.downloadHandler.text;
-            //messageMesh.text = ros_response["data"].ToString();
+            messageMesh.text = ros_response.ToString();
         }
 
         if (ros_response != null)
         {
-            if (ros_response.Equals("1"))
+            if (ros_response.ToString().Equals("\"1\""))
             {
-                //arrow.SetActive(true);
+                arrow.SetActive(true);
                 //arrow.transform.Rotate(0, 0, 90);
-                arrow.transform.rotation = Quaternion.Euler(0, 0, 90);
-                messageMesh.text = "received 1";
+                arrow.transform.rotation = Quaternion.Euler(0, 0, -90);
+                //messageMesh.text = "received 1";
 
             }
-            else if (ros_response.Equals("2"))
+            else if (ros_response.ToString().Equals("\"2\""))
             {
-                //arrow.SetActive(true);
+                arrow.SetActive(true);
                 //arrow.transform.Rotate(0, 0, -90);
-                arrow.transform.rotation = Quaternion.Euler(0, 0, -90);
+                arrow.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             else
             {
-                //arrow.SetActive(false);
+                arrow.SetActive(false);
+                
             }
         }
     }
