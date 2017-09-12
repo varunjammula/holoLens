@@ -7,9 +7,15 @@ public class RosNodeClient : MonoBehaviour
 {
 
     public string ApiEndpoint = "192.168.1.9";
-    public GameObject arrow;
+    //public GameObject arrow;
     private TextMesh messageMesh;
     private string ros_response = null;
+
+
+    void Awake()
+    {
+        //arrow.SetActive(false);
+    }
 
     void Start()
     {
@@ -27,12 +33,10 @@ public class RosNodeClient : MonoBehaviour
     void FixedUpdate()
     {
         
-        StartCoroutine(WaitForRequest(ApiEndpoint));
-
-        
+        //StartCoroutine(SubscribeToROS(ApiEndpoint));
     }
 
-    IEnumerator WaitForRequest(string url)
+    IEnumerator SubscribeToROS(string url)
     {
         UnityWebRequest www = UnityWebRequest.Get(url);
         www.SetRequestHeader("Cache-Control", "max-age=0, no-cache, no-store");
@@ -55,22 +59,21 @@ public class RosNodeClient : MonoBehaviour
         {
             if (ros_response.ToString().Equals("\"1\""))
             {
-                arrow.SetActive(true);
+                //arrow.SetActive(true);
                 //arrow.transform.Rotate(0, 0, 90);
-                arrow.transform.rotation = Quaternion.Euler(0, 0, -90);
+                //arrow.transform.rotation = Quaternion.Euler(0, 0, -90);
                 //messageMesh.text = "received 1";
 
             }
             else if (ros_response.ToString().Equals("\"2\""))
             {
-                arrow.SetActive(true);
+               //arrow.SetActive(true);
                 //arrow.transform.Rotate(0, 0, -90);
-                arrow.transform.rotation = Quaternion.Euler(0, 0, 90);
+                //arrow.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
             else
             {
-                arrow.SetActive(false);
-                
+                //arrow.SetActive(false);
             }
         }
     }

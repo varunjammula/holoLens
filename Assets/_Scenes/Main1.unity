@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageMesh: {fileID: 1709425644}
-  arrow: {fileID: 496845871}
+  linePrefab: {fileID: 1429535919949966, guid: 45d13314a606d374cb25548f0cad9caf, type: 2}
 --- !u!1001 &496845870
 Prefab:
   m_ObjectHideFlags: 0
@@ -192,13 +192,13 @@ Prefab:
       propertyPath: m_Name
       value: Arrow
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 432dd2b7c2581c744a40ca43b1307c17, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 432dd2b7c2581c744a40ca43b1307c17, type: 3}
   m_IsPrefabParent: 0
---- !u!1 &496845871 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100002, guid: 432dd2b7c2581c744a40ca43b1307c17, type: 3}
-  m_PrefabInternal: {fileID: 496845870}
 --- !u!1001 &537066501
 Prefab:
   m_ObjectHideFlags: 0
@@ -346,20 +346,6 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_FalloffTable:
-    m_Table[0]: 0
-    m_Table[1]: 0
-    m_Table[2]: 0
-    m_Table[3]: 0
-    m_Table[4]: 0
-    m_Table[5]: 0
-    m_Table[6]: 0
-    m_Table[7]: 0
-    m_Table[8]: 0
-    m_Table[9]: 0
-    m_Table[10]: 0
-    m_Table[11]: 0
-    m_Table[12]: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -418,7 +404,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ApiEndpoint: 192.168.1.9
-  arrow: {fileID: 496845871}
 --- !u!21 &696648753
 Material:
   serializedVersion: 6
@@ -612,7 +597,7 @@ Camera:
   m_GameObject: {fileID: 769065204}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2

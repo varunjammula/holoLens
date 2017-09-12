@@ -16,10 +16,13 @@ namespace Vuforia
         #region PRIVATE_MEMBER_VARIABLES
 
         private TrackableBehaviour mTrackableBehaviour;
+        private Vector3 temp;
+        private GameObject line;
         #endregion // PRIVATE_MEMBER_VARIABLES
 
         public TextMesh messageMesh;
-        public GameObject arrow;
+        //public GameObject arrow;
+        public GameObject linePrefab;
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
 
@@ -81,14 +84,26 @@ namespace Vuforia
             {
                 component.enabled = true;
             }
-            
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found at: " + getTimeStamp());
-            messageMesh.text = mTrackableBehaviour.TrackableName + " found at: " + mTrackableBehaviour.transform.position;
-            arrow.transform.position = mTrackableBehaviour.transform.position;
+
+            temp = mTrackableBehaviour.transform.position;
+            //Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found at: " + getTimeStamp());
+            messageMesh.text = mTrackableBehaviour.TrackableName + " found at: " + temp + " on " + getTimeStamp();
+
+            //arrow.SetActive(true);
+            //arrow.transform.position = temp;
+
             //arrow.transform.rotation = mTrackableBehaviour.transform.rotation;
             //arrow.transform.rotation = new Quaternion(0, 90, 0, 0);
+            Vector3 position = new Vector3(temp.x, 0, temp.z);
+            line = Instantiate(linePrefab, position, Quaternion.identity);
+            //line.transform.rotation = mTrackableBehaviour.transform.rotation;
+            //OnTrackingLost();
         }
 
+        private void AddObject(Vector3 position)
+        {
+
+        }
 
         private string getTimeStamp()
         {
@@ -112,7 +127,9 @@ namespace Vuforia
                 component.enabled = false;
             }
 
-            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
+            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost !");
+            messageMesh.text = "trackable lost.";
+            //arrow.SetActive(false);
         }
 
         #endregion // PRIVATE_METHODS
