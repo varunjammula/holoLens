@@ -38,6 +38,6 @@ Material:
     - _Parallax: 0.005
     - _Shininess: 0.24853565
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9852941, g: 0, b: 0, a: 1}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 0.5}
     - _SpecColor: {r: 0.1646136, g: 0.1882353, b: 0.16474521, a: 1}

@@ -49,6 +49,9 @@ namespace Vuforia
                                         TrackableBehaviour.Status previousStatus,
                                         TrackableBehaviour.Status newStatus)
         {
+
+            messageMesh.text = " " + getTimeStamp();
+
             if (newStatus == TrackableBehaviour.Status.DETECTED ||
                 newStatus == TrackableBehaviour.Status.TRACKED ||
                 newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
@@ -86,18 +89,12 @@ namespace Vuforia
             }
 
             temp = mTrackableBehaviour.transform.position;
-            //Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found at: " + getTimeStamp());
-            messageMesh.text = mTrackableBehaviour.TrackableName + " found at: " + temp + " on " + getTimeStamp();
+            Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found at: " + getTimeStamp());
 
-            //arrow.SetActive(true);
-            //arrow.transform.position = temp;
-
-            //arrow.transform.rotation = mTrackableBehaviour.transform.rotation;
-            //arrow.transform.rotation = new Quaternion(0, 90, 0, 0);
-            Vector3 position = new Vector3(temp.x, 0, temp.z);
-            line = Instantiate(linePrefab, position, Quaternion.identity);
-            //line.transform.rotation = mTrackableBehaviour.transform.rotation;
-            //OnTrackingLost();
+            line = Instantiate(linePrefab, temp, Quaternion.identity);
+            line.SetActive(true);
+            line.transform.rotation = mTrackableBehaviour.transform.rotation;
+             
         }
 
         private void AddObject(Vector3 position)
@@ -128,7 +125,7 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost !");
-            messageMesh.text = "trackable lost.";
+            //messageMesh.text = "trackable lost.";
             //arrow.SetActive(false);
         }
 
